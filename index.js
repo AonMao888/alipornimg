@@ -8,6 +8,37 @@ app.get('/',(req,res)=>{
     res.send('Home')
 })
 
+//get all images
+app.get('/img',async(req,res)=>{
+    let cate = req.query.category;
+    if(cate){
+        const {data,error} = await supabase.from('imglist').select('*').eq('cate',cate);
+        if(data){
+            res.json(data);
+        }else{
+            res.status(404).send("Error")
+        }
+    }else{
+        const {data,error} = await supabase.from('imglist').select('*');
+        if(data){
+            res.json(data);
+        }else{
+            res.status(404).send("Error")
+        }
+    }
+})
+
+//get image by category
+app.get('/img',async(req,res)=>{
+    let cate = req.query.category;
+    const {data,error} = await supabase.from('imglist').select('*');
+    if(data){
+        res.json(data);
+    }else{
+        res.status(404).send("Error")
+    }
+})
+
 app.listen(80,()=>{
     console.log('Server started with port 80');
 })
