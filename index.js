@@ -45,11 +45,27 @@ app.get('/img',async(req,res)=>{
     }
 })
 
-//get redtube api data
+//get xvideo api data
 app.get('/xvideo',async(req,res)=>{
-    let q = req.query.q;
-    const fresh = await xvideos.videos.fresh({page:1});
+    let page = req.query.page;
+    const fresh = await xvideos.videos.fresh({page:page});
     res.json(fresh);
+    console.log(fresh);
+})
+
+//get xvideo by params api data
+app.get('/xvideo/:type',async(req,res)=>{
+    let page = req.query.page;
+    let type = req.params.type;
+    let url = req.query.url;
+    if(type == 'new'){
+        const fresh = await xvideos.videos.newFresh({page:page});
+        res.json(fresh);
+    }else if (type == 'video') {
+        const fresh = await xvideos.videos.details({url});
+        res.json(fresh);
+    }
+    
 })
 
 app.listen(80,()=>{
