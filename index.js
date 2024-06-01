@@ -45,6 +45,17 @@ app.get('/img',async(req,res)=>{
     }
 })
 
+//get specific image
+app.get('/img/:id',async(req,res)=>{
+    let id = req.params.id;
+    const {data,error} = await supabase.from('imglist').select().eq('imgid',id);
+    if(data){
+        res.json(data);
+    }else{
+        res.status(404).send("Error")
+    }
+})
+
 //get xvideo api data
 app.get('/xvideo',async(req,res)=>{
     let page = req.query.page;
